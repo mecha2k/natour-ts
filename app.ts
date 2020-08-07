@@ -2,14 +2,12 @@ import express, { Application, Request, Response, NextFunction } from "express"
 import logger from "morgan"
 import helmet from "helmet"
 import cookieParser from "cookie-parser"
-import httpError from "http-errors"
 import expressLimit from "express-rate-limit"
 import mongoSanitize from "express-mongo-sanitize"
 import compression from "compression"
 import hpp from "hpp"
 import cors from "cors"
 import path from "path"
-import { AnyARecord } from "dns"
 
 const app: Application = express()
 
@@ -60,8 +58,8 @@ app.use(function (req: Request, res: Response, next: NextFunction) {
 // app.use("/api/reviews", reviewRouter)
 // app.use("/api/bookings", bookingRouter)
 
-app.use(function (req: Request, res: Response, next: NextFunction) {
-  next(httpError(404))
+app.get("/", (req: Request, res: Response) => {
+  res.status(200).send("Hello from the server side")
 })
 
 app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
@@ -72,10 +70,4 @@ app.use(function (err: any, req: Request, res: Response, next: NextFunction) {
   res.render("error")
 })
 
-// app.all("*", (req, res, next) => {
-//   next(new appError(`Can't find ${req.originalUrl} on this server!`, 404))
-// })
-
-// app.use(errorHandler)
-
-export default { app }
+export default app

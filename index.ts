@@ -6,7 +6,7 @@ import app from "./app"
 console.log(app.get("env"))
 dotenv.config({ path: "./.env" })
 
-const DB = process.env.DATABASE.replace("<PASSWORD>", process.env.DATABASE_PASSWORD)
+const DB = (<string>process.env.DATABASE).replace("<PASSWORD>", (<string>process.env.DATABASE_PASSWORD))
 const localDB = process.env["DATABASE_LOCAL"]
 mongoose
   .connect(DB, {
